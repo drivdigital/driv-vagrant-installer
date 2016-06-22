@@ -44,4 +44,4 @@ if ( ! file_exists( "{$settings['package']}/{$settings['name']}" ) ) {
 if ( ! file_exists( "{$settings['package']}/{$settings['name']}" ) ) {
   diec( "Could not clone to site dir! {$settings['package']}/{$settings['name']}" );
 }
-echo "\033[0;35m$settings['package']}/{$settings['name']}\033[0m\n";
+echo "Installed into \033[0;35m{$settings['package']}/{$settings['name']}\033[0m\n";
