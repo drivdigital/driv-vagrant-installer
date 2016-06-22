@@ -1,0 +1,47 @@
+#!/usr/bin/php
+<?php
+
+function diec( $message ) {
+  die( "\033[0;32m$message\033[0m\n" );
+}
+$repo = @$argv[1];
+
+if ( !$repo ) {
+  diec( "Usage: dvi git@repo.org:path/to.git\n" );
+}
+
+$base = basename( $repo );
+$parts = explode( '.', $base );
+$slug = $parts[0];
+
+// Read the config file
+$config_content = `git archive --remote=$repo HEAD vagrant-config/config.json | tar -xO`;
+$settings = json_decode( $config_content, true );
+if ( empty( $settings ) ) {
+  diec( "Invalid config file in the host repo\n" );
+}
+// Check parameters in json file
+if ( ! @$settings['package'] ) {
+  diec( "Package is missing in config\n" );
+}
+if ( ! @$settings['name'] ) {
+  diec( "Name is missing in config\n" );
+}
+if ( ! @$settings['git'] ) {
+  diec( "Git url is missing in config\n" );
+}
+// Clone package
+if ( ! file_exists( $settings['package'] ) ) {
+  `git clone git@github.com:drivdigital/driv-vagrant.git "{$settings['package']}"`;
+}
+if ( ! file_exists( $settings['package'] ) ) {
+  diec( "Could not clone to package dir! {$settings['package']}" );
+}
+// Clone site
+if ( ! file_exists( "{$settings['package']}/{$settings['name']}" ) ) {
+  `git clone {$settings['git']} "{$settings['package']}/{$settings['name']}"`;
+}
+if ( ! file_exists( "{$settings['package']}/{$settings['name']}" ) ) {
+  diec( "Could not clone to site dir! {$settings['package']}/{$settings['name']}" );
+}
+echo "\033[0;35m$settings['package']}/{$settings['name']}\033[0m\n";
