@@ -32,7 +32,7 @@ if ( ! @$settings['git'] ) {
 }
 // Clone package
 if ( ! file_exists( $settings['package'] ) ) {
-  `git clone git@github.com:drivdigital/driv-vagrant.git "{$settings['package']}"`;
+  `git clone https://github.com/drivdigital/driv-vagrant.git "{$settings['package']}"`;
 }
 if ( ! file_exists( $settings['package'] ) ) {
   diec( "Could not clone to package dir! {$settings['package']}" );
