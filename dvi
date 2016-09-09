@@ -48,9 +48,6 @@ mkdir( "{$settings['package']}/config" );
 echo "Installed into \033[0;35m{$settings['package']}/{$settings['name']}\033[0m\n";
 
 if ( file_exists( "{$settings['package']}/{$settings['name']}/composer.json" ) ) {
-  $response = trim( strtolower( readline( 'Composer is detected. Would you like to install? [Y]' ) ) );
-  if ( $response && 'y' !== $response && 'yes' !== $response ) {
-    die;
-  }
+  echo 'Composer is detected. Installing it now.';
   `cd "{$settings['package']}/{$settings['name']}" && composer install`;
 }
